@@ -44,7 +44,7 @@ def withdraw(username, value):
 
     # Log the transaction
     with open(f"db/user_logs/{username}.txt", "a") as log:
-        log.write(f"Withdrew {value} at {datetime.datetime.now()}\n")
+        log.write(f"Withdral of {value} at {datetime.datetime.now()}\n")
 
     # Close the connection to the database
     conn.close()
@@ -70,3 +70,5 @@ def view_balance(username):
     conn.close()
 
     return balance
+
+

@@ -48,7 +48,10 @@ At Gigachad Bank of Erdia, managing your finances has never been easier. With ou
             print("Success in establishing connection to the Gigachad Bank Of Erdia...")
             print("----------------------------------------------------------------------------------")
             ATM.menu()
-
+            if menu_choice == 2:
+                usrnm = str(input("Username: "))
+                paswd = int(input("Password: "))
+                auth.user_setup(username=usrnm, password=paswd)
             if menu_choice == 1:
                 usrnm = str(input("Username: "))
                 paswd = int(input("Password: "))
@@ -65,31 +68,24 @@ Succesfully logged in At Gigachad Bank of Erdia as {usrnm},  you can:
 
                 menu_choice_ = int(input("Enter your choice: "))
     
-            elif menu_choice == 2:
+            if menu_choice_ == 1:
                 usrnm = str(input("Username: "))
-                paswd = int(input("Password: "))
-                auth.user_setup(username=usrnm, password=paswd)
-            elif menu_choice_ == 1:
-                usrnm = str(input("Username: "))
-                paswd = int(input("Password: "))
                 bal = bank.view_balance(username=usrnm)
                 print(f"Current balance: {bal}")
                 with open(f"db/user_logs/{usrnm}.txt", 'r') as log:
                     print(log.read())
-            elif menu_choice_ == 2:
+            if menu_choice_ == 2:
+                bal = bank.view_balance(username=usrnm)
                 print(f"Username: {usrnm}\nBalance: {bal}")
                 dep_val = int(input("Deposit Amount: "))
                 bank.deposit(username=usrnm, value=dep_val)
                 bal_updated = bank.view_balance(username=usrnm)
                 print(f"Current balance: {bal_updated}")
-            elif menu_choice_ == 3:
+            if menu_choice_ == 3:
+                bal = bank.view_balance(username=usrnm)
                 print(f"Username: {usrnm}\nBalance: {bal}")
-                withd_val = int(input("Withdraw Amount: "))
-                bank.withdraw(username=usrnm, value=withd_val)
-                bal_after_withdraw = bank.view_balance(username=usrnm)
-                print(f"Current balance: {bal_after_withdraw}")
-
-
-
-
+                wit_val = int(input("Withdraw Amount: "))
+                bank.withdraw(username=usrnm, value=wit_val)
+                bal_updated = bank.view_balance(username=usrnm)
+                print(f"Balance: {bal_updated}")
 ATM()

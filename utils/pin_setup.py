@@ -3,10 +3,10 @@ import hashlib
 
 def create_table(username: str) -> None:
     # connect to the database
-    conn = sqlite3.connect('db/users.db')
+    conn = sqlite3.connect('db/atm.db')
     cursor = conn.cursor()
     # create table
-    cursor.execute(f"CREATE TABLE IF NOT EXISTS {username} (id INTEGER PRIMARY KEY, password TEXT)")
+    cursor.execute(f"CREATE TABLE IF NOT EXISTS {username} (id INTEGER PRIMARY KEY, password TEXT, balance INTEGER)")
     conn.commit()
     cursor.close()
     conn.close()
@@ -17,13 +17,14 @@ def signup(username: str, password: int) -> None:
         raise ValueError("Pin should be 4 digits.")
     else:
         # connect to the database
-        conn = sqlite3.connect('db/users.db')
+        conn = sqlite3.connect('db/atm.db')
         create_table(username)
         cursor = conn.cursor()
         # hash the password
         password = hashlib.sha256(str(password).encode()).hexdigest()
         # insert user's data into the table
         cursor.execute(f"INSERT INTO {username} (password) VALUES (?)", (password,))
+        cursor.execute(f"INSERT INTO {username} (balance) VALUES (0)")
         conn.commit()
         cursor.close()
         conn.close()
@@ -33,7 +34,7 @@ def login(username: str, password: int) -> bool:
     if len(str(password)) != 4:
         raise ValueError("Pin should be 4 digits.")
     # connect to the database
-    conn = sqlite3.connect('db/users.db')
+    conn = sqlite3.connect('db/atm.db')
     cursor = conn.cursor()
     # hash the password
     password = hashlib.sha256(str(password).encode()).hexdigest()
@@ -62,7 +63,7 @@ def user_setup(username: str, password: int) -> None:
 #     if len(str(old_password)) != 4 or len(str(new_password)) != 4:
 #         raise ValueError("Pin should be 4 digits.")
 #     # connect to the database
-#     conn = sqlite3.connect('db/users.db')
+#     conn = sqlite3.connect('db/atm.db')
 #     cursor = conn.cursor()
 #     # hash the old password for comparison
 #     old_password = hashlib.sha256(str(old_password).encode()).hexdigest()

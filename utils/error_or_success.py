@@ -10,3 +10,6 @@ def succ_err(success_or_error):
         return False
     if success_or_error == "🟢🟢🟢":
         return True
+
+
+        
