@@ -1,4 +1,5 @@
 from utils import pin_setup, random_fact, error_or_success, banking_features
+import sys
 
 
 
@@ -85,7 +86,16 @@ Succesfully logged in At Gigachad Bank of Erdia as {usrnm},  you can:
                 bal = bank.view_balance(username=usrnm)
                 print(f"Username: {usrnm}\nBalance: {bal}")
                 wit_val = int(input("Withdraw Amount: "))
-                bank.withdraw(username=usrnm, value=wit_val)
-                bal_updated = bank.view_balance(username=usrnm)
-                print(f"Balance: {bal_updated}")
+                if wit_val > bal:
+                    print("You don't have enough balance.")
+                if wit_val == bal:
+                    print("You'll end up with 0 balance.")
+                    sure = str(input("Are you sure you want to empty you bank account?"))
+                    if sure == "no" or "n" or "nope" or "NO":
+                        sys.exit()
+                        
+                    else:
+                        bank.withdraw(username=usrnm, value=wit_val)
+                        bal_updated = bank.view_balance(username=usrnm)
+                        print(f"Balance: {bal_updated}")
 ATM()
